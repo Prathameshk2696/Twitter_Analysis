@@ -1,0 +1,157 @@
+<!-- Styles -->
+<style>
+    #chartdiv {
+      width: 100%;
+    height:550px;
+    max-width:100%;
+    }
+    </style>
+    
+    <!-- Resources -->
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/plugins/forceDirected.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Chart code -->
+    <script>
+    am4core.ready(function() {
+    
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+    am4core.options.autoDispose = true;
+    function create_chart(data)
+    {
+        var chart = am4core.create("chartdiv", am4plugins_forceDirected.ForceDirectedTree);
+        var networkSeries = chart.series.push(new am4plugins_forceDirected.ForceDirectedSeries())
+        chart.zoomable = true;
+        networkSeries.data = data;
+        networkSeries.dataFields.value = "value";
+        networkSeries.dataFields.name = "name";
+        networkSeries.dataFields.children = "children";
+        networkSeries.nodes.template.tooltipText = "{name}:{value}";
+        networkSeries.nodes.template.fillOpacity = 1;
+        
+        networkSeries.nodes.template.label.text = "{name}"
+        networkSeries.fontSize = 10;
+        networkSeries.links.template.strokeWidth = 1;
+        
+        var hoverState = networkSeries.links.template.states.create("hover");
+        hoverState.properties.strokeWidth = 3;
+        hoverState.properties.strokeOpacity = 1;
+
+        networkSeries.nodes.template.events.on("over", function(event) {
+            event.target.dataItem.childLinks.each(function(link) {
+              link.isHover = true;
+            })
+            if (event.target.dataItem.parentLink) {
+              event.target.dataItem.parentLink.isHover = true;
+            }
+          })
+
+        networkSeries.nodes.template.events.on("out", function(event) {
+            event.target.dataItem.childLinks.each(function(link) {
+              link.isHover = false;
+            })
+            if (event.target.dataItem.parentLink) {
+              event.target.dataItem.parentLink.isHover = false;
+            }
+          })
+        set_on_hit_listener(chart,networkSeries)
+        return [chart,networkSeries]
+    }
+
+    function set_on_hit_listener(chart,networkSeries)
+    {
+        networkSeries.nodes.template.events.on("hit",function(event){
+            parent_seq = []
+            node_item = event.target.dataItem
+            node_name = node_item.name
+            node_name_clicked = node_name
+            parent_seq.push(node_name)
+            while(node_name!='L0C0')
+            {
+                node_item = node_item.parent
+                node_name = node_item.name
+                parent_seq.unshift(node_name)
+            }
+            console.log('parent_seq',parent_seq)
+            l = networkSeries.data
+            i = 0;
+            while(true)
+            {
+                console.log('H')
+                j = 0;
+                while(j<l.length)
+                {
+                    d = l[j]
+                    if(d['name'] == parent_seq[i])
+                    {
+                        
+                        l = d['children']
+                        break;
+                    }
+                    j += 1
+                }
+                i += 1
+                console.log('list',l)
+                if(i==parent_seq.length)
+                {
+                    break;
+                }
+            }
+            console.log('dict',d)
+
+            if(!('children' in d))
+            {
+                console.log('expand')
+                $.ajax(
+                {
+                    type: "POST",
+                    data: { csrfmiddlewaretoken: "{{ csrf_token }}",   // < here
+                        'node_name':node_name_clicked
+                    },
+                    url:"/get_children",
+                    success: function(result)
+                    {
+                        children_list = JSON.parse(result).children_list
+                        d['children'] = children_list
+                        console.log('expand',d)
+                        var [chart,networkSeries2] = create_chart(networkSeries.data)
+                    }
+                }
+                );
+            }
+            else
+            {
+                delete d['children']
+                console.log('contract',d)
+                var [chart,networkSeries2] = create_chart(networkSeries.data)
+            }
+        },this);
+
+    }
+
+    $.ajax(
+            {
+                type: "POST",
+                data: { csrfmiddlewaretoken: "{{ csrf_token }}",   // < here
+                },
+                url:"/get_root",
+                success: function(result)
+                {
+                    root_data = JSON.parse(result).data
+                    //console.log(root_data)
+                    var [chart,networkSeries] = create_chart(root_data)
+                }
+            }
+        );
+    
+    
+    
+    }); // end am4core.ready()
+    </script>
+    
+    <!-- HTML -->
+    <div id="chartdiv"></div>

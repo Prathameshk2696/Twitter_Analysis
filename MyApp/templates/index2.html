@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<head>
+		<style>
+			* 
+			{
+				box-sizing: border-box;
+			}
+			section
+			{
+				color:black;
+			}
+			.row1
+			{
+				border:5px solid red;
+			}
+			
+			.ProjectName 
+			{
+			  padding:10px;
+			  text-align:center;
+			  background-color: white;
+			}
+			
+			h1
+			{
+				color:black;
+			}
+			
+			.row2
+			{
+				padding-top:5px;
+				height: 570px;
+				text-align:center;
+			}	
+			
+			.row3
+			{
+				padding-top:5px;
+				text-align:center;
+			}	
+			
+			.left
+			{
+				float: left;
+				width:15%;
+				background-color:white;
+				padding:20px;
+				height:100%
+			}
+			
+			.middle
+			{
+				border: 1px solid red;
+				float: left;
+				width:70%;
+				background-color:white;
+				padding:20px;
+				height:100%
+			}
+			
+			.right
+			{
+				float: left;
+				width:15%;
+				background-color:white;
+				padding:20px;
+				height:100%
+			}	
+		</style>
+	</head>
+	<body>
+		<section class="row1">
+			<div class="ProjectName">
+				<h1>COLLATZ CONJECTURE</h1>
+			</div>
+		</section>
+		<section class="row2">
+			<div class="left">
+				<form>
+					<label for="num">Enter Number:</label>
+					<input type="number" id="num">
+					<input type="button" onclick="setNumber()" value="PLOT IT">
+				</form>
+			</div>
+			<div class="middle">
+				<h2 id="R2M"></h2>
+				<svg id="chart"></svg>
+			</div>
+			<div class="right">
+				<h2>Mr. Right</h2>
+			</div>
+		</section>
+		<section class="row3">
+			<div class="left">
+				<h2>R3Left</h2>
+			</div>
+			<div class="middle">
+				<h2>R3Middle</h2>
+			</div>
+			<div class="right">
+				<h2>R3Right</h2>
+			</div>
+		</section>
+	</body>
+	<script>
+		store = {}
+		function setNumber()
+		{
+			let number = document.getElementById("num").value;
+			store.number = number;
+			console.log(number*2);
+			let i=parseInt(number);
+			let sequence = new Array();
+			let count=0;
+			while(i!=1)
+			{
+				let temp = {
+					'x':count,
+					'y':i
+				}
+				sequence.push(temp);
+				if((i%2)==0)
+				{
+					i=i/2;
+				}
+				else
+				{
+					i=3*i + 1;
+				}
+				count++;
+			}
+			let temp = {
+				'x':count,
+				'y':i
+			}
+			sequence.push(temp);
+			d3.select("#R2M").text("This is set by d3");
+			console.log(sequence);
+			store.sequence = sequence;
+
+			drawBarChart();
+		}
+
+		function drawBarChart()
+		{
+			let width = document.getElementById("chart").parentNode.parentElement.clientWidth;
+			let height = document.getElementById("chart").parentNode.parentElement.clientHeight;
+			let margin = {
+				top: 10,
+				bottom: 50,
+				left: 130,
+				right: 10
+			};
+			let bodyWidth = width - margin.left - margin.right; // width occupied by bar chart
+			let bodyHeight = height - margin.top - margin.bottom; // height occupied by bar chart
+			let container = d3.select("#chart"); // This is svg element
+			container.attr("width",width);
+			container.attr("height",height);
+
+			// create scales
+			sequence = store.sequence;
+			xMax = d3.max(sequence, function(d){
+				return d.x;
+			});
+			yMax = d3.max(sequence, function(d){
+				return d.y;
+			})
+			console.log(xMax);
+			console.log(yMax);
+			xScale = d3.scaleLinear()
+						.domain([0,xMax])
+						.range([0,bodyWidth]);
+			yScale = d3.scaleLinear()
+						.domain([0,yMax])
+						.range([0,bodyHeight]);
+			// scales are ready now
+
+			let body = container.append("g")
+								.style('transform',`translate(${margin.left}px,${margin.top}px)`);
+
+			//binding the data
+			let bars = d3.selectAll(".bar")
+							.data(sequence)
+
+			bars.enter().append('rect')
+					.attr('y',(d) => yScale(d.y))
+					.attr('width',(d) => xScale(d.x))
+					.attr('fill','red')
+
+		}
+
+	</script>
+</html>
+
+
+

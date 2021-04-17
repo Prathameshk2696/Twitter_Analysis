@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)https://coreui.io/demo/free/3.4.0/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--<base href="./">--><base href=".">
+
+<title>Social Network Analysis</title>
+<link rel="manifest" href="https://coreui.io/demo/free/3.4.0/assets/favicon/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+<link href="./style.css" rel="stylesheet">
+<style>
+* {box-sizing: border-box}
+
+/* Set height of body and the document to 100% */
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial;
+}
+
+/* Style tab links */
+.tablink {
+  background-color: #555;
+  color: white;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 17px;
+  width: 25%;
+}
+
+.tablink:hover {
+  background-color: #777;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+  color: white;
+  display: none;
+  padding: 100px 20px;
+  height: 100%;
+}
+</style>
+<link href="./home_files/coreui-chartjs.css" rel="stylesheet">
+<meta name="robots" content="noindex">
+<script type="text/javascript" async="" src="./home_files/analytics.js.download"></script><script async="" src="./home_files/js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-118965717-1');
+</script><style type="text/css">/* Chart.js */
+/*
+ * DOM element rendering detection
+ * https://davidwalsh.name/detect-node-insertion
+ */
+@keyframes chartjs-render-animation {
+	from { opacity: 0.99; }
+	to { opacity: 1; }
+}
+
+.chartjs-render-monitor {
+	animation: chartjs-render-animation 0.001s;
+}
+
+/*
+ * DOM element resizing detection
+ * https://github.com/marcj/css-element-queries
+ */
+.chartjs-size-monitor,
+.chartjs-size-monitor-expand,
+.chartjs-size-monitor-shrink {
+	position: absolute;
+	direction: ltr;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+	pointer-events: none;
+	visibility: hidden;
+	z-index: -1;
+}
+
+.chartjs-size-monitor-expand > div {
+	position: absolute;
+	width: 1000000px;
+	height: 1000000px;
+	left: 0;
+	top: 0;
+}
+
+.chartjs-size-monitor-shrink > div {
+	position: absolute;
+	width: 200%;
+	height: 200%;
+	left: 0;
+	top: 0;
+}
+</style>
+</head>
+<header>
+</header>
+<body class="c-app">
+<div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
+<div class="c-sidebar-brand d-lg-down-none">
+<svg class="c-sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
+<use xlink:href="assets/brand/coreui.svg#full"></use>
+</svg>
+<svg class="c-sidebar-brand-minimized" width="46" height="46" alt="CoreUI Logo">
+<use xlink:href="assets/brand/coreui.svg#signet"></use>
+</svg>
+</div>
+<ul class="c-sidebar-nav ps ps--active-y">
+<li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" >
+<svg class="c-sidebar-nav-icon">
+<use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
+</svg> <Strong>Social Netwok Analysis</Strong></a></li>
+<li class="c-sidebar-nav-title">Community Analysis</li>
+<li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="https://coreui.io/demo/free/3.4.0/colors.html">
+<svg class="c-sidebar-nav-icon">
+<use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
+</svg> Communities</a></li>
+
+<li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="https://coreui.io/demo/free/3.4.0/colors.html">
+<svg class="c-sidebar-nav-icon">
+<use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
+</svg> Triangles</a></li>
+
+<li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="https://coreui.io/demo/free/3.4.0/typography.html">
+<svg class="c-sidebar-nav-icon">
+<use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
+</svg> Shortest Path</a></li>
+
+<li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="https://coreui.io/demo/free/3.4.0/colors.html">
+<svg class="c-sidebar-nav-icon">
+<use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
+</svg> Page Rank</a></li>
+
+
+<li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="https://coreui.io/demo/free/3.4.0/colors.html">
+<svg class="c-sidebar-nav-icon">
+<use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
+</svg> Mutual Connections</a></li>
+
+<li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="https://coreui.io/demo/free/3.4.0/colors.html">
+<svg class="c-sidebar-nav-icon">
+<use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
+</svg> Colors</a></li>
+
+
+<li class="c-sidebar-nav-item"></li><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; height: 649px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 566px;"></div></div></ul>
+
+<button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent" data-class="c-sidebar-minimized"></button>
+</div>
+<div class="c-wrapper c-fixed-components">
+
+<div class="c-body">
+<main class="c-main">
+<div class="container-fluid">
+<div class="fade-in">
+<div class="row">
+<div class="col-sm-6 col-lg-3">
+<div class="card text-white bg-primary">
+<div class="card-body card-body pb-0 d-flex justify-content-between align-items-start">
+<div>
+<div><Strong>Total Nodes</Strong></div>
+<div class="text-value-lg">10231120</div>
+
+</div>
+</div>
+<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+
+<div id="card-chart1-tooltip" class="c-chartjs-tooltip top bottom" style="opacity: 0; left: 190.537px; top: 139.554px;"><div class="c-tooltip-header"><div class="c-tooltip-header-item">July</div></div><div class="c-tooltip-body"><div class="c-tooltip-body-item"><span class="c-tooltip-body-item-color" style="background-color: rgb(50, 31, 219);"></span><span class="c-tooltip-body-item-label">My First dataset</span><span class="c-tooltip-body-item-value">40</span></div></div></div></div>
+</div>
+</div>
+
+<div class="col-sm-6 col-lg-3">
+<div class="card text-white bg-info">
+<div class="card-body card-body pb-0 d-flex justify-content-between align-items-start">
+<div>
+
+<div><Strong>Total Edges</Strong></div>
+<div class="text-value-lg">60578600</div></div>
+</div>
+<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+</div>
+</div>
+</div>
+
+<div class="col-sm-6 col-lg-3">
+<div class="card text-white bg-warning">
+<div class="card-body card-body pb-0 d-flex justify-content-between align-items-start">
+<div>
+<div><Strong>Total Communities</Strong></div>
+<div class="text-value-lg">9256</div></div>
+</div>
+<div class="c-chart-wrapper mt-3" style="height:70px;"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+</div>
+</div>
+</div>
+
+<div class="col-sm-6 col-lg-3">
+<div class="card text-white bg-danger">
+<div class="card-body card-body pb-0 d-flex justify-content-between align-items-start">
+<div>
+<div class="text-value-lg">10702123</div>
+<div>Total Nodes in Network</div>
+</div>
+</div>
+<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="card">
+<div class="card-body">
+<div class="d-flex justify-content-between">
+<div>
+<h4 class="card-title mb-0">Traffic</h4>
+<div class="small text-muted">September 2019</div>
+</div>
+<div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar with buttons">
+<div class="btn-group btn-group-toggle mx-3" data-toggle="buttons">
+<label class="btn btn-outline-secondary">
+<input id="option1" type="radio" name="options" autocomplete="off"> Day
+</label>
+<label class="btn btn-outline-secondary">
+<input id="option2" type="radio" name="options" autocomplete="off" checked=""> Month
+</label>
+<label class="btn btn-outline-secondary active">
+<input id="option3" type="radio" name="options" autocomplete="off"> Year
+</label>
+</div>
+<button class="btn btn-primary" type="button">
+<svg class="c-icon">
+<use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-cloud-download"></use>
+</svg>
+</button>
+</div>
+</div>
+<div class="c-chart-wrapper" style="height:1000px;margin-top:40px;"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+<canvas class="chart chartjs-render-monitor" id="main-chart" height="375" width="1452" style="display: block; height: 300px; width: 1162px;"></canvas>
+</div>
+</div>
+<div class="card-footer">
+<div class="row text-center">
+
+</div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-sm-6 col-lg-4">
+<div class="card">
+
+</div>
+</div>
+</div>
+
+ </div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+</main>
+</div>
+</div>
+
+<script src="./home_files/coreui.bundle.min.js.download"></script>
+<script src="./home_files/coreui-chartjs.bundle.js.download"></script>
+<script src="./home_files/coreui-utils.js.download"></script>
+<script src="./home_files/main.js.download"></script>
+
+<script>
+function openPage(pageName,elmnt,color) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("c-sidebar-nav-link");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].style.backgroundColor = "";
+  }
+  document.getElementById(pageName).style.display = "block";
+  elmnt.style.backgroundColor = color;
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+</body></html>
